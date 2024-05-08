@@ -1,2 +1,2 @@
-# DQE_Intermedia_Final
-DQE_Intermedia Final tasks
+# DQE_Intermediate_Final
+DQE_Intermediate Final tasks
