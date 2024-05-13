@@ -17,5 +17,4 @@ Then input MFA code on the phone to approve the access request.
 
 After this if the DataLab service works notebook has to run all cells and provide table with test results in the browser folder.
 
-Currently no possibilities to check how the notebook runs due to the issues with the DataLab service.
-For this reason screenshots also could not be added to the description.
+Program stops after time out.

@@ -10,9 +10,9 @@ login_page_url = 'https://login.dlabanalytics.com/auth/realms/dlab/protocol/open
 dlab_url = "https://ssn.trainings.dlabanalytics.com/#/instances"
 notebook_url = "https://dqelearn.trainings.dlabanalytics.com/okrangach/notebooks/DQ_Checks_okrangach.ipynb"
 
-# Specify username and password fields
-# username = input("Enter your username (email): ")
-# password = input("Enter your password: ")
+# Specify username and password fields when running the program
+# username = "User_Name@email.com"
+# password = "password123!"
 
 # Download the compatible ChromeDriver version
 chromedriver_path = ChromeDriverManager().install()  # Download and get path
@@ -22,6 +22,9 @@ service = webdriver.ChromeService(executable_path=chromedriver_path)
 
 # Instantiate Chrome driver with the service object
 driver = webdriver.Chrome(service=service)
+
+# Maximize the browser window to full screen
+driver.maximize_window()
 
 # Open the SSO login page
 driver.get(login_page_url)
@@ -46,16 +49,19 @@ WebDriverWait(driver, 300).until(
 time.sleep(5)
 
 # Execute all cells in the notebook
-runAllDiv=driver.find_element(By.XPATH, "//div[text()='Run All Cells']")
-driver.execute_script("arguments[0].click();", runAllDiv)
+element = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//*[@id='run_all_cells']"))
+    )
+driver.execute_script("arguments[0].click();", element)
 
 time.sleep(5)
 
 # Scroll to the bottom of the notebook
-content=driver.find_element(By.XPATH, "//div[@class='jp-WindowedPanel-outer']")
-driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", content)
+notebook_container = driver.find_element(By.XPATH, "//*[@id='site']")
+driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight;", notebook_container)
 
-time.sleep(3000)
+# Specify time needed to review notebook run results. Stop program earlier if needed
+time.sleep(1000)
 
 # Close the WebDriver session
 driver.quit()
